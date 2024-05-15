@@ -1,0 +1,39 @@
+stages:
+  download:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/download.py
+    params:
+    - nlocs
+    - year
+    outs:
+    - downloaded_files/
+  prepare:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/prepare.py
+    deps:
+    - downloaded_files/
+    params:
+    - nlocs
+    - year
+    outs:
+    - fieldlist/
+    - groundtruth/
+  process:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/process.py
+    deps:
+    - downloaded_files/
+    - fieldlist/
+    params:
+    - nlocs
+    - year
+    outs:
+    - predicted/
+  evaluate:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/evaluate.py
+    deps:
+    - fieldlist/
+    - groundtruth/
+    - predicted/
+    params:
+    - nlocs
+    - year
+    outs:
+    - r2score/

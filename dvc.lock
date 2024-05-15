@@ -1,0 +1,88 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/download.py
+    params:
+      params.yaml:
+        nlocs: 20
+        year: 2003
+    outs:
+    - path: downloaded_files/
+      hash: md5
+      md5: 160a5f0909bee94d5707262c01ef96d2.dir
+      size: 39301669
+      nfiles: 20
+  prepare:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/prepare.py
+    deps:
+    - path: downloaded_files/
+      hash: md5
+      md5: 160a5f0909bee94d5707262c01ef96d2.dir
+      size: 39301669
+      nfiles: 20
+    params:
+      params.yaml:
+        nlocs: 20
+        year: 2003
+    outs:
+    - path: fieldlist/
+      hash: md5
+      md5: 4032a8d6df9bf877500c4507acc7a803.dir
+      size: 62
+      nfiles: 1
+    - path: groundtruth/
+      hash: md5
+      md5: ee42694af05723178a46f9302be37712.dir
+      size: 3805
+      nfiles: 20
+  process:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/process.py
+    deps:
+    - path: downloaded_files/
+      hash: md5
+      md5: 160a5f0909bee94d5707262c01ef96d2.dir
+      size: 39301669
+      nfiles: 20
+    - path: fieldlist/
+      hash: md5
+      md5: 4032a8d6df9bf877500c4507acc7a803.dir
+      size: 62
+      nfiles: 1
+    params:
+      params.yaml:
+        nlocs: 20
+        year: 2003
+    outs:
+    - path: predicted/
+      hash: md5
+      md5: 1a8e0137776c1fe1b1e181c4fadead67.dir
+      size: 9588
+      nfiles: 20
+  evaluate:
+    cmd: python /Users/saraths17/sem8/CS5830_BDL/A4/assignment-4/evaluate.py
+    deps:
+    - path: fieldlist/
+      hash: md5
+      md5: 4032a8d6df9bf877500c4507acc7a803.dir
+      size: 62
+      nfiles: 1
+    - path: groundtruth/
+      hash: md5
+      md5: ee42694af05723178a46f9302be37712.dir
+      size: 3805
+      nfiles: 20
+    - path: predicted/
+      hash: md5
+      md5: 1a8e0137776c1fe1b1e181c4fadead67.dir
+      size: 9588
+      nfiles: 20
+    params:
+      params.yaml:
+        nlocs: 20
+        year: 2003
+    outs:
+    - path: r2score/
+      hash: md5
+      md5: 3a48a9adcd336dce68221cc779a24809.dir
+      size: 2558
+      nfiles: 1
